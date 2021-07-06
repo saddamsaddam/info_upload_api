@@ -1,0 +1,65 @@
+import React from "react";
+import { Alert, Button, SafeAreaView, StyleSheet, TextInput } from "react-native";
+
+const Home = () => {
+  const [text, onChangeText] = React.useState("");
+  const [text1, onChangeText1] = React.useState("");
+  const [number, onChangeNumber] = React.useState("455");
+  const saveData=()=>{
+    fetch('http://25cebb35c789.ngrok.io/posts', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: text,
+        title: number,
+        file:text1
+      })
+    }).then((resp)=>{
+      Alert.alert(text+",,, "+number+"  "+text1)
+      console.log(resp)
+    })
+  }
+
+  return (
+    <SafeAreaView>
+      <TextInput
+        style={styles.input}
+        onChangeText={onChangeText}
+        value={text}
+        autoCompleteType="email"
+      />
+      <TextInput
+        style={styles.input}
+        onChangeText={onChangeText1}
+        value={text1}
+        autoCompleteType="password"
+      />
+      <TextInput
+        style={styles.input}
+        onChangeText={onChangeNumber}
+        value={number}
+        placeholder="useless placeholder"
+        keyboardType="numeric"
+      />
+
+      <Button
+      title="Save me"
+      color="#841584"
+      onPress={saveData}
+      />
+    </SafeAreaView>
+  );
+};
+
+const styles = StyleSheet.create({
+  input: {
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+  },
+});
+
+export default Home;
